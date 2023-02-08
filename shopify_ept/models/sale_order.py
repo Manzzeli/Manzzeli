@@ -1998,18 +1998,18 @@ class SaleOrderLine(models.Model):
     shopify_line_id = fields.Char("Shopify Line", copy=False)
     is_gift_card_line = fields.Boolean(copy=False, default=False)
 
-    def unlink(self):
-        """
-        This method is used to prevent the delete sale order line if the order has a Shopify order.
-        @author: Haresh Mori on date:17/06/2020
-        """
-        for record in self:
-            if record.order_id.shopify_order_id:
-                msg = _(
-                    "You can not delete this line because this line is Shopify order line and we need "
-                    "Shopify line id while we are doing update order status")
-                raise UserError(msg)
-        return super(SaleOrderLine, self).unlink()
+#     def unlink(self):
+#         """
+#         This method is used to prevent the delete sale order line if the order has a Shopify order.
+#         @author: Haresh Mori on date:17/06/2020
+#         """
+#         for record in self:
+#             if record.order_id.shopify_order_id:
+#                 msg = _(
+#                     "You can not delete this line because this line is Shopify order line and we need "
+#                     "Shopify line id while we are doing update order status")
+#                 raise UserError(msg)
+#         return super(SaleOrderLine, self).unlink()
 
 
 class ImportShopifyOrderStatus(models.Model):
