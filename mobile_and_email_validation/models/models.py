@@ -14,7 +14,7 @@ class contactsemailandphone(models.Model):
         if self.phone:
             phone_number = self.env['crm.lead'].search([('phone', '=', self.phone)])
             if phone_number:
-                raise ValidationError(_("There is another Contact with same Phone."))
+                raise UserError(_("There is another Contact with same Phone."))
 
 
     @api.onchange('mobile')
@@ -22,7 +22,7 @@ class contactsemailandphone(models.Model):
         if self.mobile:
             mobile_number = self.env['crm.lead'].search([('mobile', '=', self.mobile)])
             if mobile_number:
-                raise ValidationError(_("There is another Contact with same mobile."))
+                raise UserError(_("There is another Contact with same mobile."))
 
 
 class contactsemailandphonecrm(models.Model):
