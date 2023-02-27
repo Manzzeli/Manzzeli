@@ -15,16 +15,26 @@ class Contactvalidationmobile(models.Model):
                 raise ValidationError('Not a valid E-mail ID')
 
 
+
+
     @api.constrains('mobile')
     def mobile_z_method_res(self):
         for rec in self:
             if rec.mobile and re.match("^01[0125][0-9]{8}$", rec.mobile) == None:
                 raise ValidationError('Mobile Must Be Valid & 11 Number')
 
+
     @api.onchange('mobile')
     def _onchange_mobile_validation(self):
         if self.mobile:
             self.mobile != self._phone_format(self.mobile)
+
+
+
+    api.onchange('phone', 'country_id', 'company_id')
+    def _onchange_phone_validation(self):
+        if self.phone:
+            self.phone != self._phone_format(self.phone)
 
 
 
@@ -39,16 +49,28 @@ class Crmvalidationmobile(models.Model):
                 raise ValidationError('Not a valid E-mail ID')
 
     @api.constrains('mobile')
-    def mobile_z_method_res(self):
+    def mobile_z_method_crm(self):
         for rec in self:
             if rec.mobile and re.match("^01[0125][0-9]{8}$", rec.mobile) == None:
                 raise ValidationError('Mobile Must Be Valid & 11 Number')
+
+    _sql_constraints = [
+        ('mobile', 'unique (mobile)', 'The mobile must be unique!')
+    ]
+
+    # _sql_constraints = [
+    #     ('phone', 'unique (phone)', 'The phone must be unique!')
+    # ]
 
     @api.constrains('phone')
     def phone_z_method_res(self):
         for rec in self:
             if rec.phone and re.match("^01[0125][0-9]{8}$", rec.phone) == None:
                 raise ValidationError('Phone Must Be Valid & 11 Number')
+
+    _sql_constraints = [
+        ('phone', 'unique (phone)', 'The phone must be unique!')
+    ]
 
     @api.onchange('mobile', 'country_id', 'company_id')
     def _onchange_mobile_validation(self):
