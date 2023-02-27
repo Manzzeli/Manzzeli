@@ -12,7 +12,7 @@ class contactsemailandphone(models.Model):
 
     def set_constrains_res_partner_phone(self):
         if self.phone:
-            phone_number = self.env['crm.lead'].search([('phone', '=', self.phone)])
+            phone_number = self.env['res.partner'].search([('phone', '=', self.phone)])
             if phone_number:
                 raise UserError(_("There is another Contact with same Phone."))
 
@@ -20,7 +20,7 @@ class contactsemailandphone(models.Model):
     @api.onchange('mobile')
     def set_constrains_res_partner_mobile(self):
         if self.mobile:
-            mobile_number = self.env['crm.lead'].search([('mobile', '=', self.mobile)])
+            mobile_number = self.env['res.partner'].search([('mobile', '=', self.mobile)])
             if mobile_number:
                 raise UserError(_("There is another Contact with same mobile."))
 
