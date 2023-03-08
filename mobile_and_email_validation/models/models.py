@@ -25,19 +25,19 @@ class contactsemailandphone(models.Model):
                 raise ValidationError(_("There is another Contact with same mobile."))
 
 
-class contactsemailandphonecrm(models.Model):
-    _inherit = 'crm.lead'
-
-    @api.onchange('phone')
-    def set_constrains_phone(self):
-        if self.phone:
-            phone_number = self.env['crm.lead'].search([('phone', '=', self.phone)])
-            if phone_number:
-                raise UserError(_("There is another Contact with same Phone."))
-
-    @api.onchange('mobile')
-    def set_constrains_mobile(self):
-        if self.mobile:
-            mobile_number = self.env['crm.lead'].search([('mobile', '=', self.mobile)])
-            if mobile_number:
-                raise UserError(_("There is another Contact with same mobile."))
+# class contactsemailandphonecrm(models.Model):
+#     _inherit = 'crm.lead'
+#
+#     @api.onchange('phone')
+#     def set_constrains_phone(self):
+#         if self.phone:
+#             phone_number = self.env['crm.lead'].search([('phone', '=', self.phone)])
+#             if phone_number:
+#                 raise UserError(_("There is another Contact with same Phone."))
+#
+#     @api.onchange('mobile')
+#     def set_constrains_mobile(self):
+#         if self.mobile:
+#             mobile_number = self.env['crm.lead'].search([('mobile', '=', self.mobile)])
+#             if mobile_number:
+#                 raise UserError(_("There is another Contact with same mobile."))
