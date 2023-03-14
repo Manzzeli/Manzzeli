@@ -31,6 +31,9 @@
                 <xpath expr="//page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
                        position="after">
                     <field name="re_shiping_test"/>
+
+
+                    <field name="purchase_shipping"/>
                 </xpath>
 
                 <xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']"
@@ -38,9 +41,9 @@
                     <field name="re_shiping_test" invisible="1"/>
                 </xpath>
 
-<!--                <xpath expr="//field[@name='tax_totals_json']" position="before">-->
-<!--                    <field name="shiping_one"/>-->
-<!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='tax_totals_json']" position="before">-->
+                <!--                    <field name="shiping_one"/>-->
+                <!--                </xpath>-->
 
 
                 <!--                 <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position="after">-->
@@ -49,6 +52,33 @@
 
             </field>
         </record>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="purchase_line_shipping" model="ir.ui.view">
+            <field name="name">purchase shipping</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='products']/field[@name='order_line']/tree/field[@name='price_unit']"
+                       position="after">
+<!--                    <field name="new_field_id"/>-->
+                    <field name="shipping_uu"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <!--        <xpath expr="//div[@name='button_box']" position="inside">-->
+        <!--                <button class="oe_stat_button" name="action_view_purchase_orders" type="object" icon="fa-credit-card" groups="purchase.group_purchase_user" attrs="{'invisible': [('purchase_order_count', '=', 0)]}">-->
+        <!--                    <div class="o_field_widget o_stat_info">-->
+        <!--                        <span class="o_stat_value"><field name="purchase_order_count"/></span>-->
+        <!--                        <span class="o_stat_text">Purchase</span>-->
+        <!--                    </div>-->
+        <!--                </button>-->
+        <!--            </xpath>-->
 
 
     </data>
