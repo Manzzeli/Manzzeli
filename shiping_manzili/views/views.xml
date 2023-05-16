@@ -41,15 +41,9 @@
                     <field name="re_shiping_test" invisible="1"/>
                 </xpath>
 
-                <!--                <xpath expr="//field[@name='tax_totals_json']" position="before">-->
-                <!--                    <field name="shiping_one"/>-->
-                <!--                </xpath>-->
-
-
-                <!--                 <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position="after">-->
-                <!--                    <field name="re_shiping"/>-->
-                <!--                </xpath>-->
-
+                <xpath expr="//field[@name='invoice_date']" position="after">
+                    <field name="date_test"/>
+                </xpath>
             </field>
         </record>
 
@@ -63,7 +57,7 @@
 
                 <xpath expr="//page[@name='products']/field[@name='order_line']/tree/field[@name='price_unit']"
                        position="after">
-<!--                    <field name="new_field_id"/>-->
+                    <!--                    <field name="new_field_id"/>-->
                     <field name="shipping_uu"/>
                 </xpath>
 

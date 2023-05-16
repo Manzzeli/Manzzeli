@@ -1,17 +1,17 @@
-from odoo import api, fields, models,_
+from odoo import api, fields, models, _
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 from itertools import groupby
+from datetime import date
 
-
-
-
+from datetime import datetime
 
 
 class shiping(models.Model):
     _inherit = 'sale.order.line'
 
-    shipping = fields.Float(string="Shiping",  required=False, )
+    shipping = fields.Float(string="Shiping", required=False, )
+
     # new_field_id = fields.Many2one(comodel_name="purchase.order.line", string="", required=False, )
     # price_total = fields.Monetary(compute='_compute_amount', string='Total', store=True)
     # price_subtotal = fields.Monetary(string='Subtotal', store=True, readonly=True,
@@ -22,19 +22,16 @@ class shiping(models.Model):
     # for line in order_line:
     #     line.price_subtotal = line.shipping + line.price_subtotal
 
-
-
-
     @api.depends('shipping')
     def _compute_amount(self):
         res = super(shiping, self)._compute_amount()
         for rec in self:
             if rec.price_subtotal:
-             rec.price_subtotal= rec.shipping + rec.price_subtotal
+                rec.price_subtotal = rec.shipping + rec.price_subtotal
         return res
 
     def _prepare_invoice_line(self, **optional_values):
-        res = super(shiping,self)._prepare_invoice_line()
+        res = super(shiping, self)._prepare_invoice_line()
         res.update({'re_shiping_test': self.shipping,
 
                     })
@@ -44,13 +41,14 @@ class shiping(models.Model):
 class accountmovelineshiping(models.Model):
     _inherit = 'account.move.line'
 
-    re_shiping_test = fields.Float(string="Shiping",  required=False,)
-    purchase_shipping = fields.Float(string="P Shiping",  required=False,)
+    re_shiping_test = fields.Float(string="Shiping", required=False, )
+    purchase_shipping = fields.Float(string="P Shiping", required=False, )
+
     @api.model_create_multi
     def create(self, vals_list):
         # OVERRIDE
         ACCOUNTING_FIELDS = ('debit', 'credit', 'amount_currency')
-        BUSINESS_FIELDS = ('price_unit', 'quantity', 'discount', 'tax_ids','re_shiping_test','purchase_shipping')
+        BUSINESS_FIELDS = ('price_unit', 'quantity', 'discount', 'tax_ids', 're_shiping_test', 'purchase_shipping')
 
         for vals in vals_list:
             move = self.env['account.move'].browse(vals['move_id'])
@@ -137,7 +135,7 @@ class accountmovelineshiping(models.Model):
                         move.date,
                     ))
 
-        lines = super(accountmovelineshiping,self).create(vals_list)
+        lines = super(accountmovelineshiping, self).create(vals_list)
 
         moves = lines.mapped('move_id')
         if self._context.get('check_move_validity', True):
@@ -149,7 +147,8 @@ class accountmovelineshiping(models.Model):
         return lines
 
     def _get_price_total_and_subtotal(self, price_unit=None, quantity=None, discount=None, currency=None, product=None,
-                                      partner=None, taxes=None, move_type=None,re_shiping_test=None,purchase_shipping=None):
+                                      partner=None, taxes=None, move_type=None, re_shiping_test=None,
+                                      purchase_shipping=None):
         self.ensure_one()
         return self._get_price_total_and_subtotal_model(
             price_unit=price_unit or self.price_unit,
@@ -166,7 +165,7 @@ class accountmovelineshiping(models.Model):
 
     @api.model
     def _get_price_total_and_subtotal_model(self, price_unit, quantity, discount, currency, product, partner, taxes,
-                                            move_type,re_shiping_test=0,purchase_shipping=0):
+                                            move_type, re_shiping_test=0, purchase_shipping=0):
         ''' this method is used to compute 'price_total' & 'price_subtotal'.
 
         :param price_unit:  the current price unit.
@@ -184,7 +183,6 @@ class accountmovelineshiping(models.Model):
         # compute 'price_subtotal'.
         line_discount_price_unit = price_unit * (1 - (discount / 100.0))
 
-
         print(type(re_shiping_test))
         print(re_shiping_test)
         subtotal = quantity * line_discount_price_unit + re_shiping_test + purchase_shipping
@@ -197,8 +195,8 @@ class accountmovelineshiping(models.Model):
                                                                                       currency=currency,
                                                                                       product=product, partner=partner,
                                                                                       is_refund=move_type in (
-                                                                                      'out_refund', 'in_refund'))
-            res['price_subtotal'] = taxes_res['total_excluded']+re_shiping_test+purchase_shipping
+                                                                                          'out_refund', 'in_refund'))
+            res['price_subtotal'] = taxes_res['total_excluded'] + re_shiping_test + purchase_shipping
             res['price_total'] = taxes_res['total_included']
         else:
             res['price_total'] = res['price_subtotal'] = subtotal
@@ -207,12 +205,12 @@ class accountmovelineshiping(models.Model):
             res = {k: currency.round(v) for k, v in res.items()}
         return res
 
-    @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids','re_shiping_test','purchase_shipping')
+    @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 're_shiping_test', 'purchase_shipping')
     def _onchange_price_subtotal(self):
         res = super(accountmovelineshiping, self)._onchange_price_subtotal()
         for rec in self:
             if rec.price_subtotal:
-                rec.price_subtotal = rec.re_shiping_test +rec.purchase_shipping +rec.price_subtotal
+                rec.price_subtotal = rec.re_shiping_test + rec.purchase_shipping + rec.price_subtotal
         return res
 
     # @api.depends('purchase_shipping')
@@ -222,6 +220,7 @@ class accountmovelineshiping(models.Model):
     #         if rec.price_subtotal:
     #             rec.price_subtotal = rec.purchase_shipping + rec.price_subtotal
     #     return res
+
 
 # class accountmoveone(models.Model):
 #     _inherit = 'account.move'
@@ -254,34 +253,32 @@ class accountmovelineshiping(models.Model):
 #
 #         return res
 
-    # def _compute_amount(self):
-    #     res = super(accountmoveone, self)._compute_amount()
-    #     for rec in self:
-    #         if rec.shiping_one:
-    #             rec.amount_residual = rec.shiping_one + rec.amount_residual
-    #     return res
+# def _compute_amount(self):
+#     res = super(accountmoveone, self)._compute_amount()
+#     for rec in self:
+#         if rec.shiping_one:
+#             rec.amount_residual = rec.shiping_one + rec.amount_residual
+#     return res
 
 
-    # amount_residual = fields.Monetary(string='Amount Due', store=True,
-    #                                   compute='_c
+# amount_residual = fields.Monetary(string='Amount Due', store=True,
+#                                   compute='_c
 
 
-
-    # def test_meth(self):
-    #     for rec in self:
-    #         if rec.line_ids:
-    #             for line in rec.line_ids:
-    #                 rec.sum_amount += line.amount
-    #         else:
-    #             rec.sum_amount=0
-
-
+# def test_meth(self):
+#     for rec in self:
+#         if rec.line_ids:
+#             for line in rec.line_ids:
+#                 rec.sum_amount += line.amount
+#         else:
+#             rec.sum_amount=0
 
 
 class shipingpurchase(models.Model):
     _inherit = 'purchase.order.line'
 
-    shipping_uu = fields.Float(string="Shiping",  required=False,related='sale_line_id.shipping')
+    shipping_uu = fields.Float(string="Shiping", required=False, related='sale_line_id.shipping')
+
     # new_field_id = fields.Many2one(comodel_name="sale.order.line", string="Sale Order Line", required=False,)
 
     @api.depends('shipping_uu')
@@ -362,3 +359,18 @@ class shipingpurchase(models.Model):
 #         #     return self.order_line.purchase_line_ids.shipping
 #         #
 #
+
+
+class accounttestmanzili(models.Model):
+    _inherit = 'account.move'
+
+    date_test = fields.Date(string=' Accounting Date',required=True,default=lambda self: datetime.now())
+
+    date = fields.Date(
+        string='Date',
+        required=False,
+        copy=False,
+        tracking=True,
+    )
+
+
