@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <record id="app_view_users_simple_form" model="ir.ui.view">-->
+<!--        <field name="name">app.res.users.simplified.form</field>-->
+<!--        <field name="model">res.users</field>-->
+<!--        <field name="inherit_id" ref="base.view_users_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//page[@name='references']" position="after">-->
+<!--                <page name="chart" string="Chart">-->
+<!--                    <div>-->
+<!--                        <label for="user_parent_id"/>-->
+<!--                        <field name="user_parent_id"/>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        <label for="sale_team_id"/>-->
+<!--                        <field name="sale_team_id"/>-->
+<!--                    </div>-->
+<!--                    <div id="o_node_container">-->
+<!--                        <div id="o_node_main">-->
+<!--                            <span id="add_image"/>-->
+<!--                            <span id="add_title"/>-->
+<!--                            <span id="add_group"/>-->
+<!--                        </div>-->
+<!--                        <div id="o_node_right">-->
+<!--                            <h4 class="o_chart_hierarchy_title mb16 mt0">Hierarchy Chart</h4>-->
+<!--                            <field name="user_child_ids" widget="web_chart_hierarchy"-->
+<!--                                   string="Please get widget from https://apps.odoo.com/apps/modules/14.0/app_web_chart_hierarchy/"-->
+<!--                                   context="{'form_view_ref':'base.view_users_form'}"-->
+<!--                                   options="{-->
+<!--                               'image': 'image_128',-->
+<!--                               'desc': 'login',-->
+<!--                               'direct_sub': 'user_child_ids',-->
+<!--                               'child_all_count':'user_child_all_count'}"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </page>-->
+<!--            </xpath>-->
+<!--            &lt;!&ndash;-->
+<!--            <xpath expr="//span[@id='add_image']" position="after">-->
+<!--                <xpath expr="//field[@name='image_1920']" position="move"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//span[@id='add_title']" position="after">-->
+<!--                <xpath expr="//div[@class='oe_title']" position="move"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//span[@id='add_group']" position="after">-->
+<!--                <xpath expr="//group" position="move"/>-->
+<!--            </xpath>-->
+<!--            &ndash;&gt;-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

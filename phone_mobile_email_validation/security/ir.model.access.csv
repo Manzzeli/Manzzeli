@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_phone_mobile_email_validation/home/mohamed_ali/odoo15_c/custom_phone_mobile_email_validation/home/mohamed_ali/odoo15_c/custom,phone_mobile_email_validation/home/mohamed_ali/odoo15_c/custom.phone_mobile_email_validation/home/mohamed_ali/odoo15_c/custom,model_phone_mobile_email_validation/home/mohamed_ali/odoo15_c/custom_phone_mobile_email_validation/home/mohamed_ali/odoo15_c/custom,base.group_user,1,1,1,1
