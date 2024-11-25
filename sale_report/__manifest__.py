@@ -12,7 +12,7 @@ Sale Reports custom.
     """,
     'depends': ['sale_management', 'account', 'purchase'],
     'data': [
-        'report/sale_report.xml',
+        # 'report/sale_report.xml',
         'report/sale_report_templates.xml',
     ],
 
