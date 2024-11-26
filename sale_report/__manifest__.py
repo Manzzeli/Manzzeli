@@ -14,6 +14,7 @@ Sale Reports custom.
     'data': [
         # 'report/sale_report.xml',
         'report/sale_report_templates.xml',
+        'report/account_move_report.xml',
     ],
 
     'installable': True,
