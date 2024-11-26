@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <template id="custom_sale_report_inherit" inherit_id="sale.report_saleorder_document">
-            <xpath expr="//div[@class='clearfix' and @name='so_total_summary']" position="before">
+            <xpath expr="//table[@class='table table-sm o_main_table' ]" position="after">
                 <div class="clearfix" name="so_total_summary">
                 <div id="total" class="row" name="total">
                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
