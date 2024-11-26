@@ -2,7 +2,7 @@
     <data>
         <template id="custom_sale_report_inherit" inherit_id="sale.report_saleorder_document">
             <xpath expr="//table[@class='table table-sm o_main_table' ]" position="after">
-                <div class="clearfix" name="so_total_summary">
+                <div class="clearfix" name="so_total_summary_new">
                 <div id="total" class="row" name="total">
                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
                         <table class="table table-sm">
@@ -25,7 +25,7 @@
                                     <!-- Taxes -->
                                     <tr style="border-bottom: 2px solid !important;">
                                         <td class="text-start">
-                                            <span>Vat (15%)</span>
+                                            <span>Vat (14%)</span>
                                         </td>
                                         <td class="text-start">
                                             <span t-field="doc.amount_tax"
@@ -56,6 +56,9 @@
                 </div>
             </div>
 
+            </xpath>
+            <xpath expr="//div[@name='so_total_summary']" position="attributes">
+                <attribute name="class">d-none</attribute>
             </xpath>
         </template>
     </data>
