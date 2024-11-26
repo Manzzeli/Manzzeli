@@ -10,7 +10,7 @@
                         <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
                             <table class="table table-sm">
                                 <!-- Tax totals -->
-                                <t t-set="tax_totals" t-value="json.loads(doc.tax_totals_json)"/>
+                                <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)"/>
 
                                 <!-- Untaxed Amount -->
                                 <tr style="border-top: 0px solid !important; border-bottom: 2px solid !important;">
@@ -18,8 +18,8 @@
                                         <span>Untaxed Amount</span>
                                     </td>
                                     <td class="text-start" style="border-top: 0px solid !important;">
-                                        <span t-field="doc.amount_untaxed"
-                                              t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                        <span t-field="o.amount_untaxed"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
                                     </td>
                                 </tr>
 
@@ -29,8 +29,8 @@
                                         <span>Vat (14%)</span>
                                     </td>
                                     <td class="text-start">
-                                        <span t-field="doc.amount_tax"
-                                              t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                        <span t-field="o.amount_tax"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
                                     </td>
                                 </tr>
 
@@ -41,24 +41,24 @@
                                     </td>
                                     <td class="text-start" style="font-weight:bold !important;">
                                         <strong>
-                                            <span t-esc="'{:.2f}'.format(doc.amount_total)"
+                                            <span t-esc="'{:.2f}'.format(o.amount_total)"
                                                   style="font-weight: bold;"/>
-                                            <span t-field="doc.currency_id.symbol" style="font-weight: bold;"/>
+                                            <span t-field="o.currency_id.symbol" style="font-weight: bold;"/>
                                         </strong>
                                     </td>
                                 </tr>
 
                                 <!-- Paid Amount and Date -->
-                                <t t-if="doc.payment_state == 'paid'">
+                                <t t-if="o.payment_state == 'paid'">
                                     <tr style="border-bottom: 2px solid !important;">
                                         <td class="text-start">
-                                            <span>Paid on <t t-esc="doc.payment_date"/></span>
+                                            <span>Paid on <t t-esc="o.payment_date"/></span>
                                         </td>
                                         <td class="text-start" style="font-weight:bold !important;">
                                             <strong>
-                                                <span t-esc="'{:.2f}'.format(doc.amount_paid)"
+                                                <span t-esc="'{:.2f}'.format(o.amount_paid)"
                                                       style="font-weight: bold;"/>
-                                                <span t-field="doc.currency_id.symbol" style="font-weight: bold;"/>
+                                                <span t-field="o.currency_id.symbol" style="font-weight: bold;"/>
                                             </strong>
                                         </td>
                                     </tr>
@@ -71,9 +71,9 @@
                                     </td>
                                     <td class="text-start" style="font-weight:bold !important;">
                                         <strong>
-                                            <span t-esc="'{:.2f}'.format(doc.amount_total - doc.amount_paid)"
+                                            <span t-esc="'{:.2f}'.format(o.amount_total - o.amount_paid)"
                                                   style="font-weight: bold;"/>
-                                            <span t-field="doc.currency_id.symbol" style="font-weight: bold;"/>
+                                            <span t-field="o.currency_id.symbol" style="font-weight: bold;"/>
                                         </strong>
                                     </td>
                                 </tr>
