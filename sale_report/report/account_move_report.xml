@@ -1,0 +1,97 @@
+<odoo>
+    <data>
+        <!-- Inheriting the Invoice report template -->
+        <template id="custom_invoice_report_inherit" inherit_id="account.report_invoice_document">
+            
+            <!-- Find the correct position in the original report and add the new rows for payment information -->
+            <xpath expr="//table[@class='table table-sm o_main_table']" position="after">
+                <div class="clearfix" name="so_total_summary_new">
+                    <div id="total_new" class="row" name="total">
+                        <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                            <table class="table table-sm">
+                                <!-- Tax totals -->
+                                <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)"/>
+
+                                <!-- Untaxed amount -->
+                                <tr style="border-top: 0px solid !important; border-bottom: 2px solid !important;">
+                                    <td class="text-start" style="border-top: 0px solid !important;">
+                                        <span>Untaxed Amount</span>
+                                    </td>
+                                    <td class="text-start" style="border-top: 0px solid !important;">
+                                        <span t-field="o.amount_untaxed"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <!-- Taxes -->
+                                <tr style="border-bottom: 2px solid !important;">
+                                    <td class="text-start">
+                                        <span>Vat (14%)</span>
+                                    </td>
+                                    <td class="text-start">
+                                        <span t-field="o.amount_tax"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                </tr>
+
+                                <!-- Total (Modified to "الاجمالي") -->
+                                <tr style="border-bottom: 2px solid !important;">
+                                    <td class="text-start">
+                                        <span>Total</span>
+                                    </td>
+                                    <td class="text-start" style="font-weight:bold !important;">
+                                        <strong>
+                                            <span t-esc="'{:.2f}'.format(o.amount_total)"
+                                                  style="font-weight: bold;"/>
+                                            <span t-field="o.currency_id.symbol" style="font-weight: bold;"/>
+                                        </strong>
+                                    </td>
+                                </tr>
+
+                                <!-- Paid Amount and Date -->
+                                <t t-if="print_with_payments">
+                                    <t t-if="o.payment_state != 'invoicing_legacy'">
+                                        <t t-set="payments_vals" t-value="o.sudo()._get_reconciled_info_JSON_values()"/>
+
+                                        <!-- Iterate through payments and display payment details -->
+                                        <t t-foreach="payments_vals" t-as="payment_vals">
+                                            <tr>
+                                                <td>
+                                                    <!-- Payment Date -->
+                                                    <i class="oe_form_field text-right oe_payment_label">Paid on
+                                                        <t t-esc="payment_vals['date']" t-options='{"widget": "date"}'/>
+                                                    </i>
+                                                </td>
+                                                <td class="text-right">
+                                                    <!-- Paid Amount -->
+                                                    <span t-esc="payment_vals['amount']" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <!-- Amount Due Section -->
+                                        <t t-if="len(payments_vals) > 0">
+                                            <tr class="border-black font-weight-bold">
+                                                <td>Amount Due</td>
+                                                <td class="text-right">
+                                                    <span t-field="o.amount_residual"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+            <!-- Optionally, hide or modify the original so_total_summary if needed -->
+            <xpath expr="//div[@id='total']" position="attributes">
+                <attribute name="class">d-none</attribute>
+            </xpath>
+            
+        </template>
+    </data>
+</odoo>

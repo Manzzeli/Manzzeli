@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+        <template id="custom_sale_report_inherit" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//table[@class='table table-sm o_main_table' ]" position="after">
+                <div class="clearfix" name="so_total_summary_new">
+                <div id="total" class="row" name="total">
+                    <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                        <table class="table table-sm">
+                            <!-- Tax totals -->
+                            <t t-set="tax_totals" t-value="json.loads(doc.tax_totals_json)"/>
+
+                                    <!-- Untaxed amount -->
+                                    <tr style="border-top: 0px solid !important; border-bottom: 2px solid !important;">
+                                        <td class="text-start" style="border-top: 0px solid !important;">
+                                            <span>
+                                            Untaxed Amount
+                                            </span>
+                                        </td>
+                                        <td class="text-start" style="border-top: 0px solid !important;">
+                                            <span t-field="doc.amount_untaxed"
+                                                  t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Taxes -->
+                                    <tr style="border-bottom: 2px solid !important;">
+                                        <td class="text-start">
+                                            <span>Vat (14%)</span>
+                                        </td>
+                                        <td class="text-start">
+                                            <span t-field="doc.amount_tax"
+                                                  t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Total (Modified to "الاجمالي") -->
+                                    <tr style=" border-bottom: 2px solid !important;">
+                                        <td class="text-start">
+                                            <span>
+                                            Total
+                                            </span>
+                                        </td>
+                                        <td class="text-start" style="font-weight:bold !important;">
+                                            <strong>
+                                                <span t-esc="'{:.2f}'.format(doc.amount_total)"
+                                                      style="font-weight: bold;"/>
+                                                <span t-field="doc.currency_id.symbol" style="font-weight: bold;"/>
+
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <!-- Untaxed amount -->
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            </xpath>
+            <xpath expr="//div[@name='so_total_summary']" position="attributes">
+                <attribute name="class">d-none</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>
