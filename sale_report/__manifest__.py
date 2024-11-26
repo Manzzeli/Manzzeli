@@ -15,6 +15,8 @@ Sale Reports custom.
         # 'report/sale_report.xml',
         'report/sale_report_templates.xml',
         'report/account_move_report.xml',
+        'report/po_report.xml',
+        'report/rfq_report.xml',
     ],
 
     'installable': True,
