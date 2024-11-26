@@ -10,7 +10,7 @@
                             <t t-set="tax_totals" t-value="json.loads(doc.tax_totals_json)"/>
 
                                     <!-- Untaxed amount -->
-                                    <tr style="border-top: 0px solid !important; border-bottom: 1px solid !important;">
+                                    <tr style="border-top: 0px solid !important; border-bottom: 2px solid !important;">
                                         <td class="text-start" style="border-top: 0px solid !important;">
                                             <span>
                                             Untaxed Amount
@@ -23,7 +23,7 @@
                                     </tr>
 
                                     <!-- Taxes -->
-                                    <tr style="border-bottom: 1px solid !important;">
+                                    <tr style="border-bottom: 2px solid !important;">
                                         <td class="text-start">
                                             <span>Vat (15%)</span>
                                         </td>
@@ -34,18 +34,18 @@
                                     </tr>
 
                                     <!-- Total (Modified to "الاجمالي") -->
-                                    <tr style=" border-bottom: 1px solid !important;">
+                                    <tr style=" border-bottom: 2px solid !important;">
                                         <td class="text-start">
-                                            <span>الاجمالي
-                                            <br/>
+                                            <span>
                                             Total
                                             </span>
                                         </td>
                                         <td class="text-start" style="font-weight:bold !important;">
                                             <strong>
-                                                <span t-field="doc.currency_id.symbol" style="font-weight: bold;"/>
                                                 <span t-esc="'{:.2f}'.format(doc.amount_total)"
                                                       style="font-weight: bold;"/>
+                                                <span t-field="doc.currency_id.symbol" style="font-weight: bold;"/>
+
                                             </strong>
                                         </td>
                                     </tr>
