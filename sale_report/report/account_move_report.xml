@@ -49,34 +49,37 @@
                                 </tr>
 
                                 <!-- Paid Amount and Date -->
-                                <t t-if="o.payment_state == 'paid'">
-                                    <tr style="border-bottom: 2px solid !important;">
-                                        <td class="text-start">
-                                            <span>Paid on <t t-esc="o.payment_date"/></span>
-                                        </td>
-                                        <td class="text-start" style="font-weight:bold !important;">
-                                            <strong>
-                                                <span t-esc="'{:.2f}'.format(o.amount_paid)"
-                                                      style="font-weight: bold;"/>
-                                                <span t-field="o.currency_id.symbol" style="font-weight: bold;"/>
-                                            </strong>
-                                        </td>
-                                    </tr>
-                                </t>
+                                <t t-if="print_with_payments">
+                                    <t t-if="o.payment_state != 'invoicing_legacy'">
+                                        <t t-set="payments_vals" t-value="o.sudo()._get_reconciled_info_JSON_values()"/>
 
-                                <!-- Amount Due -->
-                                <tr style="border-bottom: 2px solid !important;">
-                                    <td class="text-start">
-                                        <span>Amount Due</span>
-                                    </td>
-                                    <td class="text-start" style="font-weight:bold !important;">
-                                        <strong>
-                                            <span t-esc="'{:.2f}'.format(o.amount_total - o.amount_paid)"
-                                                  style="font-weight: bold;"/>
-                                            <span t-field="o.currency_id.symbol" style="font-weight: bold;"/>
-                                        </strong>
-                                    </td>
-                                </tr>
+                                        <!-- Iterate through payments and display payment details -->
+                                        <t t-foreach="payments_vals" t-as="payment_vals">
+                                            <tr>
+                                                <td>
+                                                    <!-- Payment Date -->
+                                                    <i class="oe_form_field text-right oe_payment_label">Paid on
+                                                        <t t-esc="payment_vals['date']" t-options='{"widget": "date"}'/>
+                                                    </i>
+                                                </td>
+                                                <td class="text-right">
+                                                    <!-- Paid Amount -->
+                                                    <span t-esc="payment_vals['amount']" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <!-- Amount Due Section -->
+                                        <t t-if="len(payments_vals) > 0">
+                                            <tr class="border-black font-weight-bold">
+                                                <td>Amount Due</td>
+                                                <td class="text-right">
+                                                    <span t-field="o.amount_residual"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
 
                             </table>
                         </div>
