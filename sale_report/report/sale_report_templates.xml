@@ -10,21 +10,20 @@
                             <t t-set="tax_totals" t-value="json.loads(doc.tax_totals_json)"/>
 
                                     <!-- Untaxed amount -->
-                                    <tr style="border-top: 1px solid !important; border-bottom: 2px solid !important;">
-                                        <td class="text-start">
-                                            <span>المبلغ دون الضريبة
-                                            <br/>
+                                    <tr style="border-top: 0px solid !important; border-bottom: 1px solid !important;">
+                                        <td class="text-start" style="border-top: 0px solid !important;">
+                                            <span>
                                             Untaxed Amount
                                             </span>
                                         </td>
-                                        <td class="text-start">
+                                        <td class="text-start" style="border-top: 0px solid !important;">
                                             <span t-field="doc.amount_untaxed"
                                                   t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
                                         </td>
                                     </tr>
 
                                     <!-- Taxes -->
-                                    <tr style="border-bottom: 2px solid !important;">
+                                    <tr style="border-bottom: 1px solid !important;">
                                         <td class="text-start">
                                             <span>Vat (15%)</span>
                                         </td>
@@ -35,7 +34,7 @@
                                     </tr>
 
                                     <!-- Total (Modified to "الاجمالي") -->
-                                    <tr style="background: #E5E5E5 !important; border-bottom: 2px solid !important;">
+                                    <tr style=" border-bottom: 1px solid !important;">
                                         <td class="text-start">
                                             <span>الاجمالي
                                             <br/>
